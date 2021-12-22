@@ -1,0 +1,57 @@
+server:
+  port: 8180
+  error:
+    whitelabel:
+      enabled: false
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/voluntario?useSSL=false&serverTimezone=@app.timezone
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  servlet:
+    multipart.max-file-size: 5MB
+    multipart.max-request-size: 5MB
+  mail:
+    username: mailuser
+    password: mailpwd
+    host: mailhost
+    port: 25
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    url: /v3/api-docs/
+    filter: false
+    path: /docs
+    doc-expansion: none
+logging:
+  level:
+    root: ERROR
+    org:
+      hibernate:
+        SQL: DEBUG
+jwt:
+  secret: "123456"
+  expires: 1800000
+  refresh: 86400000
+app:
+  timezone: "America/Asuncion"
+  login:
+    attempts: 5

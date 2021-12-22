@@ -1,0 +1,3 @@
+INSERT INTO "role" ("role") VALUES ('ADMIN');
+INSERT INTO "usuario" ("active", "email", "full_name", "join_date", "last_login_date", "non_locked", "password", "updated_at", "user_tipo", "username") VALUES ('1', 'admin@voluntarios.com', 'Administrador', now(), NULL, '1', '$2a$10$8L.jmdP9sgoJWx7TRLS26ulrXVy1i.q3Y3ZW6TzzTOSG.fdh93k3i', NULL, 'V', 'admin');
+INSERT INTO "usuario_roles" ("user_id", "roles_id") VALUES ('1', '1');
