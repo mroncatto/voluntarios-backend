@@ -1,10 +1,14 @@
   <!-- PROJECT SHIELDS -->
-![Progress](https://progress-bar.dev/30/?title=Desarrollo)
 [![Tags][tag-shield]][tag-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+[![Last Commit][lastcommit-shield]][lastcommit-url]
+[![Environment][environment-shield]][environment-url]
+[![Code Size][codesize-shield]][codesize-url]
+
+## 
 
 <p align="center">
 
@@ -89,7 +93,7 @@ Para ejecutar la API siga las siguientes etapas...
 <!-- LICENSE -->
 ## Licencia
 
-Distribuido bajo la licencia MIT. Hecha un vistazo en [Licencia MIT](https://github.com/mroncatto/voluntarios-backend/blob/master/LICENSE) para obtener más información.
+Distribuido bajo la licencia MIT. Hecha un vistazo en [Licencia MIT](https://github.com/mroncatto/voluntarios-backend/blob/main/LICENSE) para obtener más información.
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -102,6 +106,11 @@ Distribuido bajo la licencia MIT. Hecha un vistazo en [Licencia MIT](https://git
 [tag-url]: https://github.com/mroncatto/voluntarios-backend/tags
 [issues-shield]: https://img.shields.io/github/issues/mroncatto/voluntarios-backend.svg?style=flat
 [issues-url]: https://github.com/mroncatto/voluntarios-backend/issues
-[license-shield]: https://img.shields.io/github/license/mroncatto/voluntarios-backend?style=flat
-[license-url]: https://github.com/mroncatto/voluntarios-backend/blob/master/LICENSE.txt
-
+[license-shield]: https://img.shields.io/github/license/mroncatto/voluntarios-backend
+[license-url]: https://github.com/mroncatto/voluntarios-backend/blob/main/LICENSE
+[lastcommit-shield]: https://img.shields.io/github/last-commit/mroncatto/voluntarios-backend
+[lastcommit-url]: https://github.com/mroncatto/voluntarios-backend/commits/main
+[environment-shield]: https://img.shields.io/github/deployments/mroncatto/voluntarios-backend/voluntarios-backend
+[environment-url]: https://github.com/mroncatto/voluntarios-backend
+[codesize-shield]: https://img.shields.io/github/languages/code-size/mroncatto/voluntarios-backend
+[codesize-url]: https://github.com/mroncatto/voluntarios-backend
