@@ -1,4 +1,4 @@
-<!-- PROJECT SHIELDS -->
+  <!-- PROJECT SHIELDS -->
 ![Progress](https://progress-bar.dev/30/?title=Desarrollo)
 [![Tags][tag-shield]][tag-url]
 [![Contributors][contributors-shield]][contributors-url]
@@ -35,11 +35,10 @@
       <a href="#empezando">Empezando</a>
       <ul>
         <li><a href="#requisitos">Requisitos</a></li>
-        <li><a href="#instalacion">Instalación</a></li>
+        <li><a href="#instalación">Instalación</a></li>
       </ul>
     </li>
     <li><a href="#uso">Uso</a></li>
-    <li><a href="#contribuyendo">Contribuyendo</a></li>
     <li><a href="#licencia">Licencia</a></li>
   </ol>
 </details>
@@ -91,4 +90,18 @@ Para ejecutar la API siga las siguientes etapas...
 ## Licencia
 
 Distribuido bajo la licencia MIT. Hecha un vistazo en [Licencia MIT](https://github.com/mroncatto/voluntarios-backend/blob/master/LICENSE) para obtener más información.
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/mroncatto/voluntarios-backend?style=flat
+[contributors-url]: https://github.com/mroncatto/voluntarios-backend/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/mroncatto/voluntarios-backend.svg?style=flat
+[forks-url]: https://github.com/mroncatto/voluntarios-backend/network/members
+[tag-shield]: https://img.shields.io/github/v/tag/mroncatto/voluntarios-backend
+[tag-url]: https://github.com/mroncatto/voluntarios-backend/tags
+[issues-shield]: https://img.shields.io/github/issues/mroncatto/voluntarios-backend.svg?style=flat
+[issues-url]: https://github.com/mroncatto/voluntarios-backend/issues
+[license-shield]: https://img.shields.io/github/license/mroncatto/voluntarios-backend?style=flat
+[license-url]: https://github.com/mroncatto/voluntarios-backend/blob/master/LICENSE.txt
 
