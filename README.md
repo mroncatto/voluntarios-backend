@@ -17,10 +17,10 @@
   <p align="center">
     Creación de actividades de organizaciones en busca de voluntarios
     <br />
-    <a href="https://github.com/mroncatto/voluntarios-backend"><strong>Explore the docs »</strong></a>
+    <a href="https://voluntarios-backend.herokuapp.com/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/mroncatto/voluntarios-backend">View Demo</a>
+    <a href="https://voluntarios-backend.herokuapp.com/">View Demo</a>
     ·
     <a href="https://github.com/mroncatto/voluntarios-backend/issues">Report Bug</a>
     ·
