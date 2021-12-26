@@ -13,10 +13,10 @@ spring:
     multipart.max-file-size: 5MB
     multipart.max-request-size: 5MB
   mail:
-    username: mailuser
-    password: mailpwd
-    host: mailhost
-    port: 25
+    username: ${APP_EMAIL_USER}
+    password: ${APP_EMAIL_PWD}
+    host: smtp.mailtrap.io
+    port: 2525
     protocol: smtp
     properties:
       mail:
@@ -25,6 +25,7 @@ spring:
           starttls:
             enable: true
   jpa:
+    show_sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

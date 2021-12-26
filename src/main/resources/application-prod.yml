@@ -5,18 +5,18 @@ server:
       enabled: false
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/voluntario?useSSL=false&serverTimezone=@app.timezone
-    username: postgres
-    password: 123456
+    url: jdbc:postgresql://${APP_DB_URL}/${APP_DB_NAME}?useSSL=false&serverTimezone=@app.timezone
+    username: ${APP_DB_USER}
+    password: ${APP_DB_PWD}
     driver-class-name: org.postgresql.Driver
   servlet:
     multipart.max-file-size: 5MB
     multipart.max-request-size: 5MB
   mail:
-    username: mailuser
-    password: mailpwd
-    host: mailhost
-    port: 25
+    username: ${APP_EMAIL_USER}
+    password: ${APP_EMAIL_PWD}
+    host: ${APP_EMAIL_HOST}
+    port: ${APP_EMAIL_PORT}
     protocol: smtp
     properties:
       mail:
@@ -25,10 +25,11 @@ spring:
           starttls:
             enable: true
   jpa:
+    show_sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+        format_sql: false
     hibernate:
       ddl-auto: none
   flyway:
@@ -43,15 +44,15 @@ springdoc:
     doc-expansion: none
 logging:
   level:
-    root: ERROR
+    root: INFO
     org:
       hibernate:
-        SQL: DEBUG
+        SQL: ERROR
 jwt:
-  secret: "123456"
-  expires: 1800000
-  refresh: 86400000
+  secret: ${APP_JWT_SECRET}
+  expires: ${APP_JWT_REFRESH}
+  refresh: ${APP_JWT_REFRESH}
 app:
-  timezone: "America/Asuncion"
+  timezone: ${APP_TIMEZONE}
   login:
     attempts: 5

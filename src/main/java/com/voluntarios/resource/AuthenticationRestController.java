@@ -2,6 +2,7 @@ package com.voluntarios.resource;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.voluntarios.config.AuthResponse;
 import com.voluntarios.config.HttpResponse;
 import com.voluntarios.config.SecurityConstant;
 import com.voluntarios.domain.User;
@@ -21,10 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,21 +30,33 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
-@RequestMapping()
+@RestController()
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Authentication", description = "Refresh token")
-public class RefreshTokenController {
+@Tag(name = "Authentication", description = "Json Web Token")
+public class AuthenticationRestController {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Operation(summary = "Renovar token de autenticacion", security = {
-            @SecurityRequirement(name = "bearerAuth")}, responses = {
-            @ApiResponse(description = "successfully", responseCode = "200", headers = @Header(name = "Jwt-Token", description = "Json Web Token: Bearer", schema = @Schema(implementation = String.class)), content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = HttpResponse.class))))})
+    @Operation(summary = "Realiza Login", responses = {
+            @ApiResponse(description = "Operación exitosa", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Credenciales Incorrectas / Cuenta Bloqueada / Cuenta Inactiva", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = HttpResponse.class)))) })
     @ResponseStatus(value = HttpStatus.OK)
-    @PostMapping("/auth/token/refresh")
+    @PostMapping("/token")
+    public String login(@RequestParam String username, @RequestParam String password) {
+        /**
+         * Esta funcion es manejada por el propio spring mediante CustomAuthenticationFilter
+         */
+        return "";
+    }
+
+    @Operation(summary = "Renueva el token de autenticacion", security = {
+            @SecurityRequirement(name = "bearerAuth")}, responses = {
+            @ApiResponse(description = "Operación exitosa", responseCode = "200", headers = @Header(name = "Authorization", description = "Json Web Token: Bearer", schema = @Schema(implementation = String.class)), content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Requisición incorrecta", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = HttpResponse.class)))) })
+    @ResponseStatus(value = HttpStatus.OK)
+    @PostMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {

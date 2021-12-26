@@ -27,6 +27,11 @@ public class User implements Serializable {
     @Size(min = 5, max = 75, message = "(!) El nombre debe contener entre 5 y 75 caracteres")
     private String fullName;
 
+    @NotNull(message = "(!) Ciudad es obligatorio")
+    @Column(length = 75, nullable = false)
+    @Size(min = 5, max = 75, message = "(!) La ciudad debe contener entre 5 y 75 caracteres")
+    private String ciudad;
+
     @NotNull(message = "(!) Correo es obligatorio")
     @Size(min = 5, max = 45, message = "(!) El correo debe contener entre 5 y 45 caracteres")
     @Column(length = 45, nullable = false, unique = true)
@@ -37,7 +42,6 @@ public class User implements Serializable {
     @Column(length = 25, nullable = false, unique = true)
     private String username;
 
-    @NotNull(message = "(!) Password es obligatorio")
     @Size(min = 6, message = "(!) El password debe contener minimo 6 caracteres")
     @Column(length = 128, nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

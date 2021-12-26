@@ -12,8 +12,11 @@ public class SituacionConverter implements AttributeConverter<Situacion, String>
             case PENDIENTE -> {
                 return "P";
             }
-            case FINALIZADO -> {
+            case FINALIZADA -> {
                 return "F";
+            }
+            case CANCELADA -> {
+                return "C";
             }
             default -> throw new IllegalArgumentException("Valor inesperado en Situacion: " + attribute);
         }
@@ -26,7 +29,10 @@ public class SituacionConverter implements AttributeConverter<Situacion, String>
                 return Situacion.PENDIENTE;
             }
             case "F" -> {
-                return Situacion.FINALIZADO;
+                return Situacion.FINALIZADA;
+            }
+            case "C" -> {
+                return Situacion.CANCELADA;
             }
             default -> throw new IllegalArgumentException("Valor inesperado en Situacion: " + dbData);
         }
