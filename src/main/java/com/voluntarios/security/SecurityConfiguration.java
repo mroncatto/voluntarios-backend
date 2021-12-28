@@ -2,7 +2,9 @@ package com.voluntarios.security;
 
 import com.voluntarios.filter.CustomAuthenticationFilter;
 import com.voluntarios.filter.JwtAuthorizationFilter;
+import com.voluntarios.repository.UserRepository;
 import com.voluntarios.service.LoginAttemptService;
+import com.voluntarios.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +17,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.voluntarios.config.SecurityConstant.PUBLIC_URLS;
+import static com.voluntarios.config.SecurityConstant.*;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -27,6 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final LoginAttemptService loginAttemptService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,12 +39,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), this.loginAttemptService, this.jwtTokenProvider);
-        customAuthenticationFilter.setFilterProcessesUrl("/auth/token");
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), this.loginAttemptService, this.jwtTokenProvider, this.userRepository);
+        customAuthenticationFilter.setFilterProcessesUrl("/v1/auth/token");
         customAuthenticationFilter.setPostOnly(true);
         http.csrf().disable();
+        http.cors();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers(POST, "/auth/token/**").permitAll();
+        http.authorizeRequests().antMatchers(POST, "/v1/auth/token/**").permitAll();
+        http.authorizeRequests().antMatchers(POST, ALLOW_POST).permitAll();
+        http.authorizeRequests().antMatchers(GET, ALLOW_GET).permitAll();
         http.authorizeRequests().antMatchers(PUBLIC_URLS).permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);

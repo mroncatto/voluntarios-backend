@@ -21,6 +21,7 @@ import javax.persistence.NoResultException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.voluntarios.config.ExceptionConstant.ROLE_NOT_FOUND_BY;
 import static com.voluntarios.config.UserConstant.*;
@@ -37,7 +38,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll() {
-        return this.userRepository.findAll();
+        return this.userRepository.findAll().stream()
+                .filter((User user) -> !user.getUsername().equalsIgnoreCase("admin")).collect(Collectors.toList());
     }
 
     @Override

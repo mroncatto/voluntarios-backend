@@ -19,7 +19,6 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @NotNull(message = "(!) Nombre es obligatorio")
@@ -75,6 +74,6 @@ public class User implements Serializable {
     }
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "user" })
+    @JsonIgnoreProperties({ "user" })
     private List<Role> roles;
 }
