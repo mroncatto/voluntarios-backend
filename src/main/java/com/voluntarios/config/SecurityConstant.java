@@ -9,5 +9,5 @@ public class SecurityConstant {
     public static final String[] PUBLIC_URLS = {"/swagger-ui/**", "/v3/api-docs/**", "/" };
     public static final String[] ALLOW_POST = {"/v1/user"};
     public static final String[] ALLOW_GET = {"/v1/actividad/**"};
-    public static final String[] ALLOWED_ORIGINS = {"https://voluntarios-backend.herokuapp.com", "http://localhost:4200"};
+    public static final String[] ALLOWED_ORIGINS = {"https://voluntarios-frontend.herokuapp.com", "http://localhost:4200"};
 }

@@ -43,7 +43,7 @@ CREATE TABLE "public"."actividad" (
     "actividad" character varying(75) NOT NULL,
     "alterado" timestamp NOT NULL,
     "creado" timestamp NOT NULL,
-    "detalle" character varying(300),
+    "detalle" text NOT NULL,
     "inicio" timestamp NOT NULL,
     "situacion" character varying(1) NOT NULL,
     "creado_por_id" bigint NOT NULL,
