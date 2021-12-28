@@ -25,8 +25,8 @@ public class Actividad implements Serializable {
     @Size(min = 5, max = 75, message = "(!) El nombre de la actividad debe contener entre 5 y 75 caracteres")
     private String actividad;
 
-    @Column(length = 300)
-    @Size(max = 300, message = "(!) El detalle de la actividad debe contener como maximo 300 caracteres")
+    @Column(columnDefinition="text", nullable = false)
+    @Size(min = 10, message = "(!) El detalle de la actividad debe contener como maximo 300 caracteres")
     private String detalle;
 
     @Column(length = 1, nullable = false)

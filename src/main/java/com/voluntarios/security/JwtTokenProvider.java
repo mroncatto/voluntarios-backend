@@ -40,7 +40,7 @@ public class JwtTokenProvider {
                 .withIssuedAt(this.getDate())
                 .withExpiresAt(this.getDate(refresh ? this.refresh : this.expires))
                 .withIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().path("").toUriString())
-                .withClaim("roles", user.getAuthorities().stream()
+                .withClaim("roles", refresh ? null : user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
     }
@@ -75,9 +75,7 @@ public class JwtTokenProvider {
 
     private Date getDate(int increase) {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(this.timezone));
-        System.out.println(calendar.getTime());
         calendar.add(Calendar.MILLISECOND, increase);
-        System.out.println(calendar.getTime());
         return calendar.getTime();
     }
 }

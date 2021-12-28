@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController()
-@RequestMapping("/auth")
+@RequestMapping("/v1/auth")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Authentication", description = "Json Web Token")
