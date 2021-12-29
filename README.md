@@ -59,17 +59,32 @@ Cuenta con las siguientes funcionalidades:
 ```
 
 <!-- GETTING STARTED -->
-### Empezando
+## Empezando
 
 Para ejecutar la API siga las siguientes etapas...
-
 
 
 ### Requisitos
 
 * IntelliJ IDEA o Eclipse IDE
 * Java 14
-* ...
+* PostgreSQL en ejeccución
+* Declarar las siguientes variables de ambiente:
+  ```
+  APP_DB_URL="DATABASE_URL:PORT" // Ejemplo: localhost:5432
+  APP_DB_NAME="DATABASE_NAME"
+  APP_DB_USER="DATABASE_USER"
+  APP_DB_PWD="DATABASE_PASSWORD"
+  APP_EMAIL_USER="CUENTA_DE_CORREO"
+  APP_EMAIL_PWD="PASSWORD_DEL_CORREO"
+  APP_EMAIL_HOST="SERVIDOR_SMTP" // Para pruebas se puede utilizar los servicios de Mailtrap
+  APP_EMAIL_PORT="SMTP_PORT"
+  APP_JWT_SECRET="LA_CLAVE_PARA_JWT"
+  APP_JWT_EXPIRES=TIEMPO_PARA_EXPIRAR_EL_TOKEN // Ejemplo: 43200000 (12 horas)
+  APP_JWT_REFRESH=86400000
+  APP_TIMEZONE="TIME_ZONE" // Ejemplo: America/Asuncion
+  APP_MODO="dev" // Modo de profile (dev o prod)
+  ```
 
 ### Instalación
 
@@ -77,18 +92,16 @@ Para ejecutar la API siga las siguientes etapas...
    ```sh
    git clone https://github.com/mroncatto/voluntarios-backend
     ```
-2. Realiza ajustes a (`application-dev.yml`) si necesario
-3. Instancia PostgreSQL online o levanta el container de Docker con:
-   ```sh
-   docker-compose -f 'docker-compose.yml' up -d --build;
-   ```
-4. Inicia el servicio
+2. Abre con Eclipse o IntelliJ
+3. Realiza ajustes a (`application-dev.yml`) si necesario
+4. Certifique que las variables de ambiente fueron declaradas
+5. Inicia el servicio
 
 <!-- USAGE EXAMPLES -->
 ## Uso
 
 - Utiliza [Postman](https://www.postman.com/downloads/) u otro servicio para manipular [metodos HTTP](https://www.w3schools.com/tags/ref_httpmethods.asp)
-- Abre la documentación (`http://localhost:8080/docs`)
+- Abre la documentación (`http://localhost:8180`)
 
 <!-- LICENSE -->
 ## Licencia
