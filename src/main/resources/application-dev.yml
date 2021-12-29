@@ -50,7 +50,7 @@ logging:
         SQL: DEBUG
 jwt:
   secret: "123456"
-  expires: 1800000
+  expires: 43200000
   refresh: 86400000
 app:
   timezone: "America/Asuncion"

@@ -17,10 +17,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,6 @@ import java.util.List;
 @Tag(name = "User", description = "Cadastro y alteración de usuarios")
 public class UserRestController {
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Operation(summary = "Obtener todos los usuarios", security = {
@@ -46,6 +45,17 @@ public class UserRestController {
     @GetMapping("/user")
     public ResponseEntity<List<User>> indexUser() {
         List<User> usuarios = this.userService.findAll();
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Obtener todos los usuarios con paginación", security = {
+            @SecurityRequirement(name = "bearerAuth")}, responses = {
+            @ApiResponse(description = "Operación exitosa", responseCode = "200", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = User.class)))),
+            @ApiResponse(responseCode = "403", description = "Falla de autenticación", content = @Content(mediaType = "application/json", schema = @Schema(implementation = HttpResponse.class)))})
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/user/page/{page}")
+    public ResponseEntity<Page<User>> indexPageUser(@PathVariable Integer page) {
+        Page<User> usuarios = this.userService.findAll(PageRequest.of(page, 4));
         return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 
@@ -67,7 +77,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "403", description = "Falla de autenticación", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = HttpResponse.class))))})
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("/user")
-    public ResponseEntity<?> signIn(@Valid @RequestBody User user, BindingResult result) throws ValidationException, UserNotFoundException, EmailExistException, UsernameExistException {
+    public ResponseEntity<?> signIn(@Valid @RequestBody User user, BindingResult result) throws ValidationException, UserNotFoundException, EmailExistException, UsernameExistException, MessagingException, TemplateException, IOException {
         User newuser = this.userService.save(user, result);
         return new ResponseEntity<>(newuser, HttpStatus.OK);
     }
@@ -98,12 +108,9 @@ public class UserRestController {
     @PutMapping("/user/changepassword")
     public ResponseEntity<?> changePassword(@RequestParam String oldpassword,
                                             @RequestParam String newpassword,
-                                            @RequestParam String username,
-                                            BindingResult result) throws ValidationException, UserNotFoundException, EmailExistException, UsernameExistException, MessagingException, TemplateException, IOException {
-        // Valida las credenciales
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldpassword));
+                                            @RequestParam String username) throws MessagingException, TemplateException, IOException {
 
-        User updatedUser = this.userService.changePassword(username, newpassword);
+        User updatedUser = this.userService.changePassword(username, newpassword, oldpassword);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 

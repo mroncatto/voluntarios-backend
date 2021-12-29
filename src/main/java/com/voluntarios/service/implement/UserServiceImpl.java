@@ -5,12 +5,17 @@ import com.voluntarios.domain.User;
 import com.voluntarios.exception.custom.*;
 import com.voluntarios.repository.RoleRepository;
 import com.voluntarios.repository.UserRepository;
+import com.voluntarios.service.EmailService;
 import com.voluntarios.service.LoginAttemptService;
 import com.voluntarios.service.UserService;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final LoginAttemptService loginAttemptService;
+    private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
 
     @Override
@@ -43,17 +50,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user, BindingResult result) throws EmailExistException, UsernameExistException, ValidationException, UserNotFoundException {
+    public Page<User> findAll(Pageable pageable) {
+        return this.userRepository.findByUsernameNot("admin",pageable);
+    }
+
+    @Override
+    public User save(User user, BindingResult result) throws EmailExistException, UsernameExistException, ValidationException, UserNotFoundException, MessagingException, TemplateException, IOException {
 
         if (result.hasErrors())
             throw new ValidationException(Objects.requireNonNull(result.getFieldError()
                     .getDefaultMessage()).toUpperCase());
 
         validateUsernameAndEmail(StringUtils.EMPTY, user.getUsername(), user.getEmail());
+
         User newuser = new User();
-        user.setPassword(encodePassword(user.getPassword()));
+        user.setPassword(this.encodePassword(user.getPassword()));
         newuser = userRepository.save(user);
-        //this.emailService.sendEmail(newuser, "Bienvenido", "Message");
+
+        // Envia un correo de bienvenida y salva el usuario
+        this.emailService.welcome(user);
         return this.userRepository.save(newuser);
     }
 
@@ -64,12 +79,13 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException(Objects.requireNonNull(result.getFieldError()
                     .getDefaultMessage()).toUpperCase());
 
+        // Realiza validaciones del registro del usuario
         User currentUser = validateUsernameAndEmail(username, user.getUsername(), user.getEmail());
 
         if (currentUser != null) {
             currentUser.setFullName(user.getFullName());
             currentUser.setEmail(user.getEmail());
-            currentUser.setUsername(user.getUsername());
+            currentUser.setCiudad(user.getCiudad());
             currentUser = userRepository.save(currentUser);
             return this.userRepository.save(currentUser);
         } else {
@@ -88,15 +104,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changePassword(String username, String password) throws UsernameNotFoundException, MessagingException, TemplateException, IOException {
+    public User changePassword(String username, String password, String oldpassword) throws UsernameNotFoundException, MessagingException, TemplateException, IOException {
         User user = this.userRepository.findUserByUsername(username);
 
         if (user == null)
             throw new UsernameNotFoundException(USER_NOT_FOUND_BY_USERNAME + username);
 
-        user.setPassword(encodePassword(password));
+        // Valida las credenciales informadas
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldpassword));
+
+        // Altera el password
+        user.setPassword(this.encodePassword(password));
         User updatedUser = this.userRepository.save(user);
-        //String firstName = user.getFullName().split(" ")[0];
         return updatedUser;
     }
 

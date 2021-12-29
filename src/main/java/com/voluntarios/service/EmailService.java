@@ -1,5 +1,6 @@
 package com.voluntarios.service;
 
+import com.voluntarios.domain.Actividad;
 import com.voluntarios.domain.User;
 import freemarker.template.TemplateException;
 
@@ -9,9 +10,12 @@ import java.util.List;
 
 public interface EmailService {
 
-    void sendEmail(User user, String subject, String message) throws MessagingException,
+    void welcome(User user) throws MessagingException,
             IOException, TemplateException;
 
-    void sendEmails(List<User> users, String subject, String message) throws MessagingException,
+    void nuevoVoluntario(User user, User voluntario, String actividad) throws MessagingException,
+            IOException, TemplateException;
+
+    void actividadAlterada(String[] users, String actividad_name, Actividad actividad) throws MessagingException,
             IOException, TemplateException;
 }

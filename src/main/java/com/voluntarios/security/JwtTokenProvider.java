@@ -69,10 +69,12 @@ public class JwtTokenProvider {
         return getDecodedJwt(token).getClaim("roles").asArray(String.class);
     }
 
+    // Obtener fecha desde el calendario
     private Date getDate() {
         return Calendar.getInstance(TimeZone.getTimeZone(this.timezone)).getTime();
     }
 
+    // Obtener fecha desde el calendario con el incremento de tiempo definido para expirar el token
     private Date getDate(int increase) {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(this.timezone));
         calendar.add(Calendar.MILLISECOND, increase);

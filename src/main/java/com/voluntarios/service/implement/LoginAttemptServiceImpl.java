@@ -28,11 +28,13 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
                 });
     }
 
+    // Limpia el cache al realizar login
     @Override
     public void evictUserFromLoginAttemptCache(String username) {
         loginAttemptCache.invalidate(username);
     }
 
+    // Incrementa el cache por una tentativa incorrecta de login
     @Override
     public void addUserToLoginAttemptCache(String username) {
         int attempts = 0;
@@ -44,6 +46,7 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
         loginAttemptCache.put(username, attempts);
     }
 
+    // Verifica si el usuario ultrapaso las tentativas permitidas de login
     @Override
     public boolean hasExceededMaxAttempts(String username) {
         try {
